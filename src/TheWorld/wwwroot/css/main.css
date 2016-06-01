@@ -1,0 +1,12 @@
+.popular-movies-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.popular-movies {
+    margin: 10px;
+    padding-bottom: 10px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px #888888;
+}

@@ -1,0 +1,23 @@
+@using TheWorld.Models
+@model IEnumerable<TheWorld.Models.Movie>
+@{
+    ViewBag.Title = "Home page";
+}
+<div class="page-header">
+    <h1>Welkom bij FletNix</h1>
+    <p>Een applicatie geschreven op het asp.net platform</p>
+</div>
+
+<div class="row">
+    <h2>Populaire films</h2>
+    <div class="popular-movies-container">
+        @foreach (var movie in Model)
+        {
+            <div class="col-lg-3 col-md-4 popular-movies">
+                <h3>@movie.title</h3>
+                <p>@movie.description</p>
+                <a asp-controller="Movie" asp-action="Movie" asp-route-id="@movie.movie_id" class="btn btn-default bottom-right">Meer details</a>
+            </div>
+        }
+    </div>
+</div>

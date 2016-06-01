@@ -1,0 +1,96 @@
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+@model TheWorld.Models.Movie
+@{
+    ViewBag.Title = "Movie detail pagina";
+}
+<div class="page-header">
+    <h1>Film</h1>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <h2>@Model.title</h2>
+        <p>@Model.description</p>
+        <h3>Lijst van genre's</h3>
+        @if (Model.Movie_Genre.Count != 0)
+        {
+            <ul>
+                @foreach (var genre in Model.Movie_Genre)
+                {
+                    <li>@genre.genre_name</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Er zijn geen genre's aanwezig</p>
+        }
+
+        <h3>Lijst van directors</h3>
+        @if (Model.Movie_Director.Count != 0)
+        {
+            <ul>
+                @foreach (var director in Model.Movie_Director)
+                {
+                    <li>
+                        @director.person.firstname, @director.person.lastname
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Er zijn geen Directors aanwezig</p>
+        }
+
+        <h3>Lijst van cast</h3>
+        @if (Model.Movie_Cast.Count != 0)
+        {
+            <ul>
+                @foreach (var cast in Model.Movie_Cast)
+                {
+                    <li>
+                        @cast.person.firstname, @cast.person.lastname ALS @cast.role
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Er is geen cast aanwezig</p>
+        }
+
+
+
+
+        @*        @if (Model.Movie_Director != null)*@
+        @*        {*@
+        @*            <p>Lijst van Directors</p>*@
+        @*            <ul>*@
+        @*                @foreach (var director in Model.Movie_Director)*@
+        @*                {*@
+        @*                    <li>@director.person.lastname , @director.person.firstname </li>*@
+        @*                }*@
+        @*            </ul>*@
+        @*        }*@
+        @*        @if (Model.Movie_Cast != null)*@
+        @*        {*@
+        @*            <p>Lijst van de cast</p>*@
+        @*            <ul>*@
+        @*                @foreach (var cast in Model.Movie_Cast)*@
+        @*                {*@
+        @*                    <li>@cast.person.lastname , @cast.person.firstname</li>*@
+        @*                }*@
+        @*            </ul>*@
+        @*        }*@
+        @*        @if (Model.MovieAwards != null)*@
+        @*        {*@
+        @*            <p>Lijst van Awards</p>*@
+        @*            <ul>*@
+        @*                @foreach (var award in Model.MovieAwards)*@
+        @*                {*@
+        @*                    <li>@award.award , @award.number_of_awards</li>*@
+        @*                }*@
+        @*            </ul>*@
+        @*        }*@
+    </div>
+</div>

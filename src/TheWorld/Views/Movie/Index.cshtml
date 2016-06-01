@@ -1,0 +1,21 @@
+@model IEnumerable<TheWorld.Models.Movie>
+@{
+    ViewBag.Title = "Home page";
+}
+<div class="page-header">
+    <h1>Bekijk hier alle films</h1>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h2>The movies</h2>
+        <ul>
+            @foreach (var movie in Model)
+            {
+                <li>
+                    <a asp-controller="Movie" asp-action="Movie" asp-route-id="@movie.movie_id">@movie.title</a>
+                    <p>@movie.duration | @movie.publication_year | @movie.price</p>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
