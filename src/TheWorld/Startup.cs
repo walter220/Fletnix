@@ -113,6 +113,8 @@ namespace TheWorld
             // Kijk of we Identity moeten gebruiken
             app.UseIdentity();
 
+
+
             // Gebruik MVC, meestal als laatst gebruikt
             app.UseMvc(config =>
             {
@@ -123,7 +125,7 @@ namespace TheWorld
                     );
             });
 
-            await seeder.EnsureSeedDataAsync();
+//            await seeder.EnsureSeedDataAsync();
         }
 
         // Entry point for the application.

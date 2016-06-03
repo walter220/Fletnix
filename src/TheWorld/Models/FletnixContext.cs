@@ -10,8 +10,8 @@ namespace TheWorld.Models
     {
         public FletnixContext()
         {
-            Database.EnsureCreated();
-            Database.Migrate();
+//            Database.EnsureCreated();
+//            Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)

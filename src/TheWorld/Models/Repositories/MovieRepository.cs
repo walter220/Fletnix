@@ -5,6 +5,7 @@ using Microsoft.Data.Entity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Data.Entity.Internal;
 using Microsoft.Data.Entity.Query.Internal;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace TheWorld.Models.Repositories
 {
@@ -12,11 +13,14 @@ namespace TheWorld.Models.Repositories
     {
         private readonly FletnixContext _context;
         private ILogger<MovieRepository> _logger;
+        private IMemoryCache _cache;
+        private string _popularCacheKey = "popularMovies";
 
-        public MovieRepository(FletnixContext context, ILogger<MovieRepository> logger)
+        public MovieRepository(FletnixContext context, ILogger<MovieRepository> logger, IMemoryCache cache)
         {
             _context = context;
             _logger = logger;
+            _cache = cache;
         }
         public IEnumerable<Movie> GetAll()
         {
@@ -70,25 +74,34 @@ namespace TheWorld.Models.Repositories
 
         public IEnumerable<Movie> GetPopularMovies()
         {
-            try
+            IEnumerable<Movie> movies;
+            if (!_cache.TryGetValue(_popularCacheKey, out movies))
             {
-                var result = _context.Movie
-                    .Join (
-                        _context.Watchhistory
-                            .GroupBy(m => m.movie_id)
-                            .Select(w => new {total = w.Count(), wID = w.Key})
-                            .OrderByDescending(o => o.total)
-                            .Take(10)
-                            .Select(a => new {movie_id = a.wID, total = a.total}), 
-                        m => m.movie_id, w => w.movie_id, (m,w) => m)
-                    .ToList();
-                return result;
+                try
+                {
+                    movies = _context.Movie
+                        .Join(
+                            _context.Watchhistory
+                                .GroupBy(m => m.movie_id)
+                                .Select(w => new {total = w.Count(), wID = w.Key})
+                                .OrderByDescending(o => o.total)
+                                .Take(10)
+                                .Select(a => new {movie_id = a.wID, total = a.total}),
+                            m => m.movie_id, w => w.movie_id, (m, w) => m)
+                        .ToList();
+
+                    _cache.Set(_popularCacheKey, movies,
+                        new MemoryCacheEntryOptions()
+                            .SetSlidingExpiration(TimeSpan.FromMinutes(5))
+                            .SetAbsoluteExpiration(TimeSpan.FromHours(1)));
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Could not get stuff from DB", ex);
+                    return null;
+                }
             }
-            catch (Exception ex)
-            {
-                _logger.LogError("Could not get stuff from DB", ex);
-                return null;
-            }
+            return movies;
         }
     }
 }
