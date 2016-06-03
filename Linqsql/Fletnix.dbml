@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="Fletnix" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.__EFMigrationsHistory" Member="__EFMigrationsHistory">
+    <Type Name="__EFMigrationsHistory">
+      <Column Name="MigrationId" Type="System.String" DbType="NVarChar(150) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProductVersion" Type="System.String" DbType="NVarChar(32) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspNetRoleClaims" Member="AspNetRoleClaims">
+    <Type Name="AspNetRoleClaims">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ClaimType" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="ClaimValue" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="RoleId" Type="System.String" DbType="NVarChar(450) NOT NULL" CanBeNull="false" />
+      <Association Name="FK_IdentityRoleClaim&lt;string&gt;_IdentityRole_RoleId" Member="AspNetRoles" ThisKey="RoleId" OtherKey="Id" Type="AspNetRoles" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspNetRoles" Member="AspNetRoles">
+    <Type Name="AspNetRoles">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(450) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ConcurrencyStamp" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="NormalizedName" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Association Name="FK_IdentityRoleClaim&lt;string&gt;_IdentityRole_RoleId" Member="AspNetRoleClaims" ThisKey="Id" OtherKey="RoleId" Type="AspNetRoleClaims" DeleteRule="CASCADE" />
+      <Association Name="FK_IdentityUserRole&lt;string&gt;_IdentityRole_RoleId" Member="AspNetUserRoles" ThisKey="Id" OtherKey="RoleId" Type="AspNetUserRoles" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspNetUserClaims" Member="AspNetUserClaims">
+    <Type Name="AspNetUserClaims">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ClaimType" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="ClaimValue" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="UserId" Type="System.String" DbType="NVarChar(450) NOT NULL" CanBeNull="false" />
+      <Association Name="FK_IdentityUserClaim&lt;string&gt;_FletnixUser_UserId" Member="AspNetUsers" ThisKey="UserId" OtherKey="Id" Type="AspNetUsers" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspNetUserLogins" Member="AspNetUserLogins">
+    <Type Name="AspNetUserLogins">
+      <Column Name="LoginProvider" Type="System.String" DbType="NVarChar(450) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProviderKey" Type="System.String" DbType="NVarChar(450) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProviderDisplayName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="UserId" Type="System.String" DbType="NVarChar(450) NOT NULL" CanBeNull="false" />
+      <Association Name="FK_IdentityUserLogin&lt;string&gt;_FletnixUser_UserId" Member="AspNetUsers" ThisKey="UserId" OtherKey="Id" Type="AspNetUsers" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspNetUserRoles" Member="AspNetUserRoles">
+    <Type Name="AspNetUserRoles">
+      <Column Name="UserId" Type="System.String" DbType="NVarChar(450) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.String" DbType="NVarChar(450) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="FK_IdentityUserRole&lt;string&gt;_FletnixUser_UserId" Member="AspNetUsers" ThisKey="UserId" OtherKey="Id" Type="AspNetUsers" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_IdentityUserRole&lt;string&gt;_IdentityRole_RoleId" Member="AspNetRoles" ThisKey="RoleId" OtherKey="Id" Type="AspNetRoles" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AspNetUsers" Member="AspNetUsers">
+    <Type Name="AspNetUsers">
+      <Column Name="Id" Type="System.String" DbType="NVarChar(450) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AccessFailedCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ConcurrencyStamp" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="EmailConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="FirsteTime" Type="System.DateTime" DbType="DateTime2(7) NOT NULL" CanBeNull="false" />
+      <Column Name="LockoutEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LockoutEnd" Type="System.DateTimeOffset" DbType="DateTimeOffset(7)" CanBeNull="true" />
+      <Column Name="NormalizedEmail" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="NormalizedUserName" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="PasswordHash" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="PhoneNumberConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="SecurityStamp" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="TwoFactorEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Association Name="FK_IdentityUserClaim&lt;string&gt;_FletnixUser_UserId" Member="AspNetUserClaims" ThisKey="Id" OtherKey="UserId" Type="AspNetUserClaims" DeleteRule="CASCADE" />
+      <Association Name="FK_IdentityUserLogin&lt;string&gt;_FletnixUser_UserId" Member="AspNetUserLogins" ThisKey="Id" OtherKey="UserId" Type="AspNetUserLogins" DeleteRule="CASCADE" />
+      <Association Name="FK_IdentityUserRole&lt;string&gt;_FletnixUser_UserId" Member="AspNetUserRoles" ThisKey="Id" OtherKey="UserId" Type="AspNetUserRoles" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Customer" Member="Customer">
+    <Type Name="Customer">
+      <Column Name="customer_mail_address" Member="Customer_mail_address" Type="System.String" DbType="VarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name" Member="Name" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="paypal_account" Member="Paypal_account" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="subscription_start" Member="Subscription_start" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="subscription_end" Member="Subscription_end" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="password" Member="Password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="FK_customer" Member="Watchhistory" ThisKey="Customer_mail_address" OtherKey="Customer_mail_address" Type="Watchhistory" DeleteRule="NO ACTION" />
+      <Association Name="FK_CustomerFeedback_Customer" Member="CustomerFeedback" ThisKey="Customer_mail_address" OtherKey="Customer_mail_address" Type="CustomerFeedback" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CustomerFeedback" Member="CustomerFeedback">
+    <Type Name="CustomerFeedback">
+      <Column Name="movie_id" Member="Movie_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="customer_mail_address" Member="Customer_mail_address" Type="System.String" DbType="VarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="feedback_date" Member="Feedback_date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="comments" Member="Comments" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="rating" Member="Rating" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="FK_CustomerFeedback_Customer" Member="Customer" ThisKey="Customer_mail_address" OtherKey="Customer_mail_address" Type="Customer" IsForeignKey="true" />
+      <Association Name="FK_CustomerFeedback_Movie" Member="Movie" ThisKey="Movie_id" OtherKey="Movie_id" Type="Movie" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="sys.database_firewall_rules" Member="Sys_Database_firewall_rules">
+    <Type Name="Sys_Database_firewall_rules">
+      <Column Name="id" Member="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" CanBeNull="false" />
+      <Column Name="name" Member="Name" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="start_ip_address" Member="Start_ip_address" Type="System.String" DbType="VarChar(45) NOT NULL" CanBeNull="false" />
+      <Column Name="end_ip_address" Member="End_ip_address" Type="System.String" DbType="VarChar(45) NOT NULL" CanBeNull="false" />
+      <Column Name="create_date" Member="Create_date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="modify_date" Member="Modify_date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Genre" Member="Genre">
+    <Type Name="Genre">
+      <Column Name="genre_name" Member="Genre_name" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="description" Member="Description" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Association Name="FK_genre" Member="Movie_Genre" ThisKey="Genre_name" OtherKey="Genre_name" Type="Movie_Genre" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Movie" Member="Movie">
+    <Type Name="Movie">
+      <Column Name="movie_id" Member="Movie_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="title" Member="Title" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="duration" Member="Duration" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="description" Member="Description" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="publication_year" Member="Publication_year" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="cover_image" Member="Cover_image" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="previous_part" Member="Previous_part" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="price" Member="Price" Type="System.Decimal" DbType="Decimal(5,2) NOT NULL" CanBeNull="false" />
+      <Column Name="URL" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="minimum_age" Member="Minimum_age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="FK_CustomerFeedback_Movie" Member="CustomerFeedback" ThisKey="Movie_id" OtherKey="Movie_id" Type="CustomerFeedback" DeleteRule="NO ACTION" />
+      <Association Name="FK_movie_id" Member="Movie_Director" ThisKey="Movie_id" OtherKey="Movie_id" Type="Movie_Director" DeleteRule="CASCADE" />
+      <Association Name="FK_MovieAwards_Movie" Member="MovieAwards" ThisKey="Movie_id" OtherKey="Movie_id" Type="MovieAwards" DeleteRule="NO ACTION" />
+      <Association Name="FK_previous_part" Member="Previous_partMovie" ThisKey="Previous_part" OtherKey="Movie_id" Type="Movie" IsForeignKey="true" />
+      <Association Name="FK_previous_part" Member="Movie_" ThisKey="Movie_id" OtherKey="Previous_part" Type="Movie" DeleteRule="NO ACTION" />
+      <Association Name="FK2_movie_id" Member="Movie_Cast" ThisKey="Movie_id" OtherKey="Movie_id" Type="Movie_Cast" DeleteRule="CASCADE" />
+      <Association Name="FK3_movie_id" Member="Movie_Genre" ThisKey="Movie_id" OtherKey="Movie_id" Type="Movie_Genre" DeleteRule="CASCADE" />
+      <Association Name="FK4_movie_id" Member="Watchhistory" ThisKey="Movie_id" OtherKey="Movie_id" Type="Watchhistory" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Movie_Cast" Member="Movie_Cast">
+    <Type Name="Movie_Cast">
+      <Column Name="movie_id" Member="Movie_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="person_id" Member="Person_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="role" Member="Role" Type="System.String" DbType="VarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="FK2_movie_id" Member="Movie" ThisKey="Movie_id" OtherKey="Movie_id" Type="Movie" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK2_person_id" Member="Person" ThisKey="Person_id" OtherKey="Person_id" Type="Person" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Movie_Director" Member="Movie_Director">
+    <Type Name="Movie_Director">
+      <Column Name="movie_id" Member="Movie_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="person_id" Member="Person_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="FK_movie_id" Member="Movie" ThisKey="Movie_id" OtherKey="Movie_id" Type="Movie" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK_person_id" Member="Person" ThisKey="Person_id" OtherKey="Person_id" Type="Person" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Movie_Genre" Member="Movie_Genre">
+    <Type Name="Movie_Genre">
+      <Column Name="movie_id" Member="Movie_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="genre_name" Member="Genre_name" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="FK_genre" Member="Genre" ThisKey="Genre_name" OtherKey="Genre_name" Type="Genre" IsForeignKey="true" DeleteOnNull="true" />
+      <Association Name="FK3_movie_id" Member="Movie" ThisKey="Movie_id" OtherKey="Movie_id" Type="Movie" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MovieAwards" Member="MovieAwards">
+    <Type Name="MovieAwards">
+      <Column Name="movie_id" Member="Movie_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="award" Member="Award" Type="System.String" DbType="VarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="result" Member="Result" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="number_of_awards" Member="Number_of_awards" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="FK_MovieAwards_Movie" Member="Movie" ThisKey="Movie_id" OtherKey="Movie_id" Type="Movie" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Person" Member="Person">
+    <Type Name="Person">
+      <Column Name="person_id" Member="Person_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="lastname" Member="Lastname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="firstname" Member="Firstname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="gender" Member="Gender" Type="System.String" DbType="Char(1)" CanBeNull="true" />
+      <Association Name="FK_person_id" Member="Movie_Director" ThisKey="Person_id" OtherKey="Person_id" Type="Movie_Director" DeleteRule="CASCADE" />
+      <Association Name="FK2_person_id" Member="Movie_Cast" ThisKey="Person_id" OtherKey="Person_id" Type="Movie_Cast" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Watchhistory" Member="Watchhistory">
+    <Type Name="Watchhistory">
+      <Column Name="movie_id" Member="Movie_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="customer_mail_address" Member="Customer_mail_address" Type="System.String" DbType="VarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="watch_date" Member="Watch_date" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="price" Member="Price" Type="System.Decimal" DbType="Decimal(5,2) NOT NULL" CanBeNull="false" />
+      <Column Name="invoiced" Member="Invoiced" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="FK_customer" Member="Customer" ThisKey="Customer_mail_address" OtherKey="Customer_mail_address" Type="Customer" IsForeignKey="true" />
+      <Association Name="FK4_movie_id" Member="Movie" ThisKey="Movie_id" OtherKey="Movie_id" Type="Movie" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.fnCheckWatchDate" Method="FnCheckWatchDate" IsComposable="true">
+    <Parameter Name="customer_mail_address" Type="System.String" DbType="VarChar(255)" />
+    <Parameter Name="watch_date" Type="System.DateTime" DbType="Date" />
+    <Return Type="System.Boolean" DbType="Bit" />
+  </Function>
+  <Function Name="dbo.SaveTranExample" Method="SaveTranExample">
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+</Database>
