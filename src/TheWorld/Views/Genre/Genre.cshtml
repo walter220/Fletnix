@@ -1,0 +1,21 @@
+@using TheWorld.Models
+@model TheWorld.Models.Genre
+@{
+    ViewBag.Title = "Genre page";
+}
+<div class="page-header">
+    <h1>Lijst van alle genre's</h1>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <a asp-controller="Genre" asp-action="Edit" asp-route-id="@Model.genre_name" class="btn btn-right btn-warning">Bewerken</a>
+@*        <a asp-controller="Genre" asp-action="Delete" asp-route-id="@Model.genre_name" class="btn btn-right btn-danger">Verwijderen</a>*@
+        <form method="post" novalidate asp-controller="Genre" asp-action="Delete" asp-route-id="@Model.genre_name">
+            @*            <a asp-controller="Genre" asp-action="Delete" asp-route-id="@Model.genre_name" class="btn btn-right btn-danger">Verwijderen</a>*@
+            <input type="submit" value="Verwijderen" class="btn btn-right btn-danger"/>
+        </form>
+        <h2>@Model.genre_name</h2>
+        <p>@Model.description</p>
+
+    </div>
+</div>

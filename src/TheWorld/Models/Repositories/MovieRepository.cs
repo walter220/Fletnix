@@ -103,5 +103,37 @@ namespace TheWorld.Models.Repositories
             }
             return movies;
         }
+
+        public IEnumerable<Movie> GetPopularMoviesNew()
+        {
+            IEnumerable<Movie> movies;
+            if (!_cache.TryGetValue(_popularCacheKey, out movies))
+            {
+                try
+                {
+                    movies = _context.Movie
+                        .Join(
+                            _context.Watchhistory
+                                .GroupBy(m => m.movie_id)
+                                .Select(w => new { total = w.Count(), wID = w.Key })
+                                .OrderByDescending(o => o.total)
+                                .Take(10)
+                                .Select(a => new { movie_id = a.wID, total = a.total }),
+                            m => m.movie_id, w => w.movie_id, (m, w) => m)
+                        .ToList();
+
+                    _cache.Set(_popularCacheKey, movies,
+                        new MemoryCacheEntryOptions()
+                            .SetSlidingExpiration(TimeSpan.FromMinutes(5))
+                            .SetAbsoluteExpiration(TimeSpan.FromHours(1)));
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Could not get stuff from DB", ex);
+                    return null;
+                }
+            }
+            return movies;
+        }
     }
 }

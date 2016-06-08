@@ -42,11 +42,14 @@ namespace TheWorld
             services.AddMvc(config =>
             {
 #if !DEBUG
-                // To add, someday
-                // Zorgt ervoor dat alles wat we versturen over https gaat
-                // config.Filters.Add(new RequireHttpsAttribute());
+            // To add, someday
+            // Zorgt ervoor dat alles wat we versturen over https gaat
+            services.Configure <MvcOptions>(options =>
+            {
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
 #endif
-            }).AddJsonOptions(opt =>
+        }).AddJsonOptions(opt =>
             {
                 opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });

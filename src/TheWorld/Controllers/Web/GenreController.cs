@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc;
+using TheWorld.Models;
 using TheWorld.Models.Repositories;
 
 namespace TheWorld.Controllers.Web
@@ -15,6 +17,47 @@ namespace TheWorld.Controllers.Web
         public IActionResult Index()
         {
             return View(_repository.GetAll());
+        }
+
+        public IActionResult Genre(string id)
+        {
+            return View(_repository.GetByGenreName(id));
+        }
+
+        [Authorize]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Create(Genre g)
+        {
+            _repository.CreateGenre(g);
+            return RedirectToAction("Index", "Genre");
+        }
+
+        [Authorize]
+        public IActionResult Edit(string genre)
+        {
+            return View(_repository.GetAll());
+        }
+
+        [HttpPut]
+        [Authorize]
+        public IActionResult Edit()
+        {
+            return View(_repository.GetAll());
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(string id)
+        {
+            _repository.DeleteGenre(id);
+            return RedirectToAction("Index", "Genre");
         }
     }
 }

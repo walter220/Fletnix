@@ -21,6 +21,7 @@ namespace TheWorld.Models.Repositories
             _logger = logger;
             _cache = cache;
         }
+
         public IEnumerable<Genre> GetAll()
         {
             IEnumerable<Genre> cacheGenre;
@@ -38,8 +39,8 @@ namespace TheWorld.Models.Repositories
                 }
                 _cache.Set(_cacheKey, cacheGenre,
                     new MemoryCacheEntryOptions()
-                        .SetSlidingExpiration(TimeSpan.FromMinutes(5))
-                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(30)));
+                        .SetSlidingExpiration(TimeSpan.FromSeconds(1))
+                        .SetAbsoluteExpiration(TimeSpan.FromMinutes(10)));
             }
             else
             {
@@ -47,6 +48,31 @@ namespace TheWorld.Models.Repositories
             }
 
             return cacheGenre;
+        }
+
+        public Genre GetByGenreName(string genre)
+        {
+            try
+            {
+                return _context.Genre.First(g => g.genre_name == genre);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Could not get stuff from DB", ex);
+                return null;
+            }
+        }
+
+        public void CreateGenre(Genre g)
+        {
+            _context.Genre.Add(g);
+            _context.SaveChanges();
+        }
+
+        public void DeleteGenre(string id)
+        {
+            _context.Genre.Remove(GetByGenreName(id));
+            _context.SaveChanges();
         }
     }
 }

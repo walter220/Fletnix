@@ -16,7 +16,7 @@ namespace TheWorld.Controllers
         {
             _signInManager = signInManager;
         }
-
+        
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)

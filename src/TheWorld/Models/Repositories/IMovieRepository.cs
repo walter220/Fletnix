@@ -8,5 +8,6 @@ namespace TheWorld.Models.Repositories
         IEnumerable<Movie> GetAllMoviesWithDirectors();
         Movie GetById(int id);
         IEnumerable<Movie> GetPopularMovies();
+        IEnumerable<Movie> GetPopularMoviesNew();
     }
 }
