@@ -1,4 +1,4 @@
-@model IEnumerable<TheWorld.Models.Movie>
+@model TheWorld.ViewModels.MoviesViewModel
 @{
     ViewBag.Title = "Home page";
 }
@@ -6,10 +6,10 @@
     <h1>Bekijk hier alle films</h1>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <h2>The movies</h2>
         <ul>
-            @foreach (var movie in Model)
+            @foreach (var movie in Model.Movies)
             {
                 <li>
                     <a asp-controller="Movie" asp-action="Movie" asp-route-id="@movie.movie_id">@movie.title</a>
@@ -18,4 +18,21 @@
             }
         </ul>
     </div>
+    <cs-pager cs-paging-pagesize="@Model.PageSize"
+              cs-paging-pagenumber="@Model.PageNumber"
+              cs-paging-totalitems="@Model.TotalItemCount"
+              cs-pagenumber-param="page"
+              asp-controller="Paging"
+              asp-action="Index"></cs-pager>
+    <p>Above here has to be a pagination with:</p>
+    <ul>
+        <li>@Model.PageSize</li>
+        <li>@Model.PageNumber</li>
+        <li>@Model.TotalItemCount</li>
+    </ul>
+</div>
+<div>
+    <p>
+        End of page
+    </p>
 </div>

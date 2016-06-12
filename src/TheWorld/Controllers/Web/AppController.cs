@@ -10,22 +10,21 @@ namespace TheWorld.Controllers.Web
     public class AppController : Controller
     {
         private readonly IMovieRepository _movieRepository;
-        private readonly IGenreRepository _genreRepository;
 
-        public AppController(IMovieRepository repository, IGenreRepository genreRepository)
+        public AppController(IMovieRepository repository)
         {
             _movieRepository = repository;
-            _genreRepository = genreRepository;
         }
 
         public IActionResult Index()
         {
-            return View(_movieRepository.GetPopularMovies());
+//            return View(_movieRepository.GetPopularMovies());
+            return View();
         }
         
-        [Authorize]
         public IActionResult About()
         {
+            ViewBag.totalMovies = _movieRepository.GetTotalMovies();
             return View();
         }
         

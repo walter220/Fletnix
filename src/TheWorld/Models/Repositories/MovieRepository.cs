@@ -35,6 +35,19 @@ namespace TheWorld.Models.Repositories
             }
         }
 
+        public IEnumerable<Movie> GetMoviesOnPage(int pageNumber, int pageSize = 20)
+        {
+            try
+            {
+                return _context.Movie.OrderBy(t => t.movie_id).Skip(pageNumber * pageSize).Take(pageSize).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Could not get stuff from DB", ex);
+                return null;
+            }
+        }
+
         public IEnumerable<Movie> GetAllMoviesWithDirectors()
         {
             try
@@ -134,6 +147,11 @@ namespace TheWorld.Models.Repositories
                 }
             }
             return movies;
+        }
+
+        public int GetTotalMovies()
+        {
+            return _context.Movie.Count();
         }
     }
 }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
+using cloudscribe.Web.Pagination;
 using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -44,12 +41,9 @@ namespace TheWorld
 #if !DEBUG
             // To add, someday
             // Zorgt ervoor dat alles wat we versturen over https gaat
-            services.Configure <MvcOptions>(options =>
-            {
-                options.Filters.Add(new RequireHttpsAttribute());
-            });
+              config.Filters.Add(new RequireHttpsAttribute());
 #endif
-        }).AddJsonOptions(opt =>
+            }).AddJsonOptions(opt =>
             {
                 opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
@@ -99,6 +93,8 @@ namespace TheWorld
             services.AddScoped<IGenreRepository, GenreRepository>();
 
             services.AddCaching();
+
+            services.AddTransient<IBuildPaginationLinks, PaginationLinkBuilder>();
         }
 
         // Order matters!
@@ -106,6 +102,8 @@ namespace TheWorld
         // Seeder is het object dat wordt geinject. Op het einde wordt dit gebruikt
         public async void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, FletnixContextSeedData seeder)
         {
+            //Without this, htmls will fail
+            app.UseIISPlatformHandler();
 #if DEBUG
             app.UseDeveloperExceptionPage();
             loggerFactory.AddDebug(LogLevel.Information);

@@ -9,6 +9,9 @@ using TheWorld.ViewModels;
 
 namespace TheWorld.Controllers
 {
+#if !DEBUG
+    [RequireHttps]
+#endif
     public class AuthController : Controller
     {
         private SignInManager<FletnixUser> _signInManager;

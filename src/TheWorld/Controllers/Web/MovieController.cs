@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Mvc;
 using TheWorld.Models.Repositories;
+using TheWorld.ViewModels;
 
 namespace TheWorld.Controllers.Web
 {
@@ -7,17 +8,16 @@ namespace TheWorld.Controllers.Web
     {
         //
         private readonly IMovieRepository _movieRepository;
-        private readonly IGenreRepository _genreRepository;
 
-        public MovieController(IMovieRepository repository, IGenreRepository genreRepository)
+        public MovieController(IMovieRepository repository)
         {
             _movieRepository = repository;
-            _genreRepository = genreRepository;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            return View(_movieRepository.GetAll());
+            
+            return View(new MoviesViewModel() {Movies = _movieRepository.GetMoviesOnPage(page), PageNumber = page, PageSize = 20, TotalItemCount = _movieRepository.GetTotalMovies()});
         }
 
         public IActionResult Movie(int id)

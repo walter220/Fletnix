@@ -32,6 +32,7 @@ namespace TheWorld.Controllers.Web
 
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Genre g)
         {
             _repository.CreateGenre(g);
@@ -57,6 +58,11 @@ namespace TheWorld.Controllers.Web
         public IActionResult Delete(string id)
         {
             _repository.DeleteGenre(id);
+            return RedirectToAction("Index", "Genre");
+        }
+        
+        public IActionResult Delete()
+        {
             return RedirectToAction("Index", "Genre");
         }
     }

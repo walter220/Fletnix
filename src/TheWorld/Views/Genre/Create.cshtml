@@ -9,10 +9,11 @@
     <div class="col-md-6">
         <h2>The genre's</h2>
         <form method="post" novalidate>
-            <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
+            @Html.AntiForgeryToken()
+            <div asp-validation-summa   ry="ValidationSummary.ModelOnly"></div>
             <div class="form-group">
                 <label asp-for="genre_name">Genre naam</label>
-                <input asp-for="genre_name" class="form-control" />
+                <input asp-for="genre_name" class="form-control"/>
                 <span asp-validation-for="genre_name"></span>
             </div>
             <div class="form-group">
@@ -22,7 +23,7 @@
                 <span asp-validation-for="description"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Aanmaken" class="btn btn-success" />
+                <input type="submit" value="Aanmaken" class="btn btn-success"/>
             </div>
         </form>
     </div>
