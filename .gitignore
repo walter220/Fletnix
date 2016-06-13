@@ -26,7 +26,6 @@ bld/
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
-wwwroot/videoTest/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -244,3 +243,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# Movie files
+*.mp4
