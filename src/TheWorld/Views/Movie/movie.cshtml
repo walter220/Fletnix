@@ -1,96 +1,191 @@
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @model TheWorld.Models.Movie
 @{
-    ViewBag.Title = "Movie detail pagina";
+        ViewBag.Title = "Movie detail pagina";
+
+        var movieData = new
+        {
+            castLast = Model.Movie_Cast.Skip(2).FirstOrDefault(),
+            genreLast = Model.Movie_Genre.Skip(2).FirstOrDefault(),
+            
+        };
 }
 <div class="page-header">
-    <h1>Film</h1>
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        <h2>@Model.title</h2>
-        <p>@Model.description</p>
-        <h3>Lijst van genre's</h3>
-        @if (Model.Movie_Genre.Count != 0)
-        {
-            <ul>
-                @foreach (var genre in Model.Movie_Genre)
-                {
-                    <li>@genre.genre_name</li>
-                }
-            </ul>
-        }
-        else
-        {
-            <p>Er zijn geen genre's aanwezig</p>
-        }
-
-        <h3>Lijst van directors</h3>
-        @if (Model.Movie_Director.Count != 0)
-        {
-            <ul>
-                @foreach (var director in Model.Movie_Director)
-                {
-                    <li>
-                        @director.person.firstname, @director.person.lastname
-                    </li>
-                }
-            </ul>
-        }
-        else
-        {
-            <p>Er zijn geen Directors aanwezig</p>
-        }
-
-        <h3>Lijst van cast</h3>
-        @if (Model.Movie_Cast.Count != 0)
-        {
-            <ul>
-                @foreach (var cast in Model.Movie_Cast)
-                {
-                    <li>
-                        @cast.person.firstname, @cast.person.lastname ALS @cast.role
-                    </li>
-                }
-            </ul>
-        }
-        else
-        {
-            <p>Er is geen cast aanwezig</p>
-        }
-
-
-
-
-        @*        @if (Model.Movie_Director != null)*@
-        @*        {*@
-        @*            <p>Lijst van Directors</p>*@
-        @*            <ul>*@
-        @*                @foreach (var director in Model.Movie_Director)*@
-        @*                {*@
-        @*                    <li>@director.person.lastname , @director.person.firstname </li>*@
-        @*                }*@
-        @*            </ul>*@
-        @*        }*@
-        @*        @if (Model.Movie_Cast != null)*@
-        @*        {*@
-        @*            <p>Lijst van de cast</p>*@
-        @*            <ul>*@
-        @*                @foreach (var cast in Model.Movie_Cast)*@
-        @*                {*@
-        @*                    <li>@cast.person.lastname , @cast.person.firstname</li>*@
-        @*                }*@
-        @*            </ul>*@
-        @*        }*@
-        @*        @if (Model.MovieAwards != null)*@
-        @*        {*@
-        @*            <p>Lijst van Awards</p>*@
-        @*            <ul>*@
-        @*                @foreach (var award in Model.MovieAwards)*@
-        @*                {*@
-        @*                    <li>@award.award , @award.number_of_awards</li>*@
-        @*                }*@
-        @*            </ul>*@
-        @*        }*@
+    <div class="btn-ctrl-group right">
+        <a asp-action="Edit" asp-route-id="@Model.movie_id" class="btn btn-warning">Bijwerken</a>
+        <form asp-action="Delete" asp-route-id="@Model.movie_id" method="post">
+            <input type="submit" value="Verwijderen" class="btn btn-danger" />
+        </form>
     </div>
+    <h1>@Model.title</h1>
 </div>
+
+<div class="row">
+    <div class="col-sm-8">
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#overzicht" aria-controls="overzicht" role="tab" data-toggle="tab">Overzicht</a></li>
+            <li role="presentation"><a href="#details" aria-controls="details" role="tab" data-toggle="tab">Details</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="overzicht">
+                <br />
+                <p>
+                    <strong>Jaar: </strong>@Model.publication_year &ensp;
+                    <strong>Speeltijd: </strong>@Model.duration minuten &ensp;
+                    <strong>Kijkwijzer: </strong>@(Model.minimum_age.Equals("") ? Model.minimum_age.ToString() : "Onbekend")
+                </p>
+                <p><strong>Omschrijving: </strong>@Model.description</p>
+                <p>
+                    <strong>Cast:</strong>
+                    @if (Model.Movie_Cast.Count != 0)
+                    {
+                        foreach (var item in Model.Movie_Cast.Take(3))
+                        {
+                            <span>@item.person.firstname @item.person.lastname@(item.Equals(movieData.castLast) ? "" : ",")</span>
+                        }
+                    }
+                    else
+                    {
+                        <span>Onbekend</span>
+                    }
+                </p>
+                <p>
+                    <strong>Genre's:</strong>
+                    @if (Model.Movie_Cast.Count != 0)
+                    {
+                        foreach (var item in Model.Movie_Genre.Take(3))
+                        {
+                            <span>@item.genre_name@(item.Equals(movieData.genreLast) ? "" : ",")</span>
+                        }
+                    }
+                    else
+                    {
+                        <span>Onbekend</span>
+                    }
+                </p>
+                <div class="text-center">
+                    <button class="btn btn-watch">Film kijken!</button>
+                </div>
+                
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="details">
+                <br />
+                <p>
+                    <strong>Jaar: </strong>@Model.publication_year &ensp;
+                    <strong>Speeltijd: </strong>@Model.duration minuten &ensp;
+                    <strong>Kijkwijzer: </strong>@(Model.minimum_age.Equals("") ? Model.minimum_age.ToString() : "Onbekend")
+                </p>
+                <p><strong>Omschrijving: </strong>@Model.description</p>
+                <div class="row">
+                    <p class="col-sm-4">
+                        <strong>Cast:</strong><br />
+                        @if (Model.Movie_Cast.Count != 0)
+                        {
+                            foreach (var item in Model.Movie_Cast)
+                            {
+                                <span>@item.person.firstname @item.person.lastname</span><br/>
+                            }
+                        }
+                        else
+                        {
+                            <span>Onbekend</span>
+                        }
+                    </p>
+                    <p class="col-sm-4">
+                        <strong>Director:</strong><br />
+                        @if (Model.Movie_Director.Count != 0)
+                        {
+                            foreach (var item in Model.Movie_Director)
+                            {
+                                <span>@item.person.firstname @item.person.lastname</span><br />
+                            }
+                        }
+                        else
+                        {
+                            <span>Onbekend</span>
+                        }
+                    </p>
+                    <p class="col-sm-4">
+                        <strong>Genre's:</strong><br />
+                        @if (Model.Movie_Genre.Count != 0)
+                        {
+                            foreach (var item in Model.Movie_Genre)
+                            {
+                                <span>@item.genre_name</span><br />
+                            }
+                        }
+                        else
+                        {
+                            <span>Onbekend</span>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-4">
+        <img src="~/img/movie_placeholder.jpg" alt="" class="movie-poster" />
+    </div>
+
+</div>
+@**@
+@*<div class="row">*@
+@*    <div class="col-md-4">*@
+@*        <h3>Lijst van genre's</h3>*@
+@*        @if (Model.Movie_Genre.Count != 0)*@
+@*        {*@
+@*            <ul class="list-group">*@
+@*                @foreach (var genre in Model.Movie_Genre)*@
+@*                {*@
+@*                    <li class="list-group-item">@genre.genre_name</li>*@
+@*                }*@
+@*            </ul>*@
+@*        }*@
+@*        else*@
+@*        {*@
+@*            <p>Er zijn geen genre's aanwezig</p>*@
+@*        }*@
+@*    </div>*@
+@**@
+@*    <div class="col-md-4">*@
+@*        <h3>Lijst van directors</h3>*@
+@*        @if (Model.Movie_Director.Count != 0)*@
+@*        {*@
+@*            <ul class="list-group">*@
+@*                @foreach (var director in Model.Movie_Director)*@
+@*                {*@
+@*                    <li class="list-group-item">*@
+@*                        @director.person.firstname, @director.person.lastname*@
+@*                    </li>*@
+@*                }*@
+@*            </ul>*@
+@*        }*@
+@*        else*@
+@*        {*@
+@*            <p>Er zijn geen Directors aanwezig</p>*@
+@*        }*@
+@*    </div>*@
+@**@
+@*    <div class="col-md-4">*@
+@*        <h3>Lijst van cast</h3>*@
+@*        @if (Model.Movie_Cast.Count != 0)*@
+@*        {*@
+@*            <ul class="list-group">*@
+@*                @foreach (var cast in Model.Movie_Cast)*@
+@*                {*@
+@*                    <li class="list-group-item">*@
+@*                        @cast.person.firstname, @cast.person.lastname ALS @cast.role*@
+@*                    </li>*@
+@*                }*@
+@*            </ul>*@
+@*        }*@
+@*        else*@
+@*        {*@
+@*            <p>Er is geen cast aanwezig</p>*@
+@*        }*@
+@*    </div>*@
+@*</div>*@

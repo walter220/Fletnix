@@ -21,7 +21,7 @@ namespace TheWorld.Controllers.Api
         [HttpGet("api/movies")]
         public JsonResult Get(int id)
         {
-            var results = _repository.GetById(id);
+            var results = _repository.GetMovie(id);
             return Json(results);
         }
     }

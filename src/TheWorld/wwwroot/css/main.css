@@ -10,3 +10,27 @@
     border-radius: 10px;
     box-shadow: 2px 2px 5px #888888;
 }
+
+.btn-ctrl-group {
+    float: right;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+}
+
+.btn-ctrl-group .btn {
+    margin-left: 10px;
+}
+
+.movie-poster {
+    width: 100%;
+}
+
+.btn-watch {
+    margin-top: 20px;
+    padding: 20px;
+    color: #EEE;
+    background-color: transparent;
+    font-size: xx-large;
+    border-radius: 20px;
+}

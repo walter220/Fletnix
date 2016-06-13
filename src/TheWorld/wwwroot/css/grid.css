@@ -1,0 +1,6 @@
+/* iPhone devices (420px and below) */
+@media (max-width: 420px) {
+     .col-xxs-1 {
+         width: auto;
+     }
+}

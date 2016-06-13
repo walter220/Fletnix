@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = "Home page";
 }
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/movies.css" />
+}
 <div class="page-header">
     <h1>Bekijk hier alle films</h1>
 </div>
@@ -16,43 +20,42 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-default">Search</button>
             </div>
-
         </form>
 
         <label>Aantal films weegeven op pagina:</label>
         <div class="btn-group" role="group" aria-label="Total movie items on page">
-            <a class="btn btn-default" asp-route-search="@Model.Search" asp-route-page="@Model.PageNumber" asp-route-size="10">10</a>
-            <a class="btn btn-default" asp-route-search="@Model.Search" asp-route-page="@Model.PageNumber" asp-route-size="25">25</a>
-            <a class="btn btn-default" asp-route-search="@Model.Search" asp-route-page="@Model.PageNumber" asp-route-size="50">50</a>
+            <a class="btn btn-default @(@Model.PageSize == 10 ? "active" : "")" asp-route-search="@Model.Search" asp-route-page="@Model.PageNumber" asp-route-size="10">10</a>
+            <a class="btn btn-default @(@Model.PageSize == 25 ? "active" : "")" asp-route-search="@Model.Search" asp-route-page="@Model.PageNumber" asp-route-size="25">25</a>
+            <a class="btn btn-default @(@Model.PageSize == 50 ? "active" : "")" asp-route-search="@Model.Search" asp-route-page="@Model.PageNumber" asp-route-size="50">50</a>
         </div>
 
         <br/>
-
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <td>title</td>
-                <td>publication_year</td>
-                <td>duration</td>
-                <td>price</td>
-                <td>Details</td>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var movie in Model.Movies)
-            {
-                <tr>
-                    <td>@movie.title</td>
-                    <td>@movie.publication_year</td>
-                    <td>@movie.duration</td>
-                    <td>@movie.price</td>
-                    <td><a asp-controller="Movie" asp-action="Movie" asp-route-id="@movie.movie_id">Details</a></td>
-                </tr>
-            }
-            </tbody>
-        </table>
+        <br/>
     </div>
-</div
+</div>
+<div class="row">
+    <div class="movie-group">
+        @if (@Model.Movies.Count() != 0)
+        {
+            foreach (var movie in Model.Movies)
+            {
+                <a asp-controller="Movie" asp-action="Movie" asp-route-id="@movie.movie_id" class="col-md-3 col-sm-4 col-xs-6 col-xxs-1 movie-group-item">
+                    <img src="~/img/movie_placeholder.jpg" alt="" />
+                    @movie.title
+                </a>
+            }
+        }
+        else
+        {
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                Er zijn geen films gevonden
+            </div>
+        }
+
+    </div>
+
+</div>
 <div class="row">
     <div class="center-block">
         <cs-pager cs-paging-pagesize="@Model.PageSize"

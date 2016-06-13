@@ -12,8 +12,8 @@ namespace TheWorld.Models.Repositories
     public class MovieRepository : IMovieRepository
     {
         private readonly FletnixContext _context;
-        private ILogger<MovieRepository> _logger;
-        private IMemoryCache _cache;
+        private readonly ILogger<MovieRepository> _logger;
+        private readonly IMemoryCache _cache;
         private string _popularCacheKey = "popularMovies";
 
         public MovieRepository(FletnixContext context, ILogger<MovieRepository> logger, IMemoryCache cache)
@@ -22,39 +22,15 @@ namespace TheWorld.Models.Repositories
             _logger = logger;
             _cache = cache;
         }
-        public IEnumerable<Movie> GetAll()
+        
+        public IEnumerable<Movie> GetAllMovies(int pageNumber, string search = "", int pageSize = 10)
         {
             try
             {
-                return _context.Movie.OrderBy(t => t.movie_id).Take(20).ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Could not get stuff from DB", ex);
-                return null;
-            }
-        }
-
-        public IEnumerable<Movie> GetMoviesOnPage(int pageNumber, string search = "", int pageSize = 20)
-        {
-            try
-            {
-                return _context.Movie.OrderBy(t => t.movie_id).Where(m => m.title.Contains(search)).Skip(pageNumber * pageSize).Take(pageSize).ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Could not get stuff from DB", ex);
-                return null;
-            }
-        }
-
-        public IEnumerable<Movie> GetAllMoviesWithDirectors()
-        {
-            try
-            {
-                return _context.Movie.
-                    Include(m => m.Movie_Director)
-                    .OrderBy(m => m.movie_id)
+                return _context.Movie
+                    .Where(m => m.title.Contains(search))
+                    .Skip(pageNumber * pageSize)
+                    .Take(pageSize)
                     .ToList();
             }
             catch (Exception ex)
@@ -62,21 +38,19 @@ namespace TheWorld.Models.Repositories
                 _logger.LogError("Could not get stuff from DB", ex);
                 return null;
             }
-
         }
 
-        public Movie GetById(int id)
+        public Movie GetMovie(int id)
         {
             try
             {
-                var result = _context.Movie
+                return _context.Movie
                     .Include(m => m.Movie_Genre)
                     .Include(m => m.Movie_Director)
                     .ThenInclude(d => d.person)
                     .Include(m => m.Movie_Cast)
                     .ThenInclude(d => d.person)
                     .First(i => i.movie_id == id);
-                return result;
             }
             catch (Exception ex)
             {
@@ -85,39 +59,38 @@ namespace TheWorld.Models.Repositories
             }
         }
 
-        public IEnumerable<Movie> GetPopularMovies()
+        public void CreateMovie(Movie m)
         {
-            IEnumerable<Movie> movies;
-            if (!_cache.TryGetValue(_popularCacheKey, out movies))
-            {
-                try
-                {
-                    movies = _context.Movie
-                        .Join(
-                            _context.Watchhistory
-                                .GroupBy(m => m.movie_id)
-                                .Select(w => new {total = w.Count(), wID = w.Key})
-                                .OrderByDescending(o => o.total)
-                                .Take(10)
-                                .Select(a => new {movie_id = a.wID, total = a.total}),
-                            m => m.movie_id, w => w.movie_id, (m, w) => m)
-                        .ToList();
-
-                    _cache.Set(_popularCacheKey, movies,
-                        new MemoryCacheEntryOptions()
-                            .SetSlidingExpiration(TimeSpan.FromMinutes(5))
-                            .SetAbsoluteExpiration(TimeSpan.FromHours(1)));
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError("Could not get stuff from DB", ex);
-                    return null;
-                }
-            }
-            return movies;
+            _context.Movie.Add(m);
+            _context.SaveChanges();
         }
 
-        public IEnumerable<Movie> GetPopularMoviesNew()
+        public Movie EditMovie(int id)
+        {
+            return GetMovie(id);
+        }
+
+        public void UpdateMovie(Movie m)
+        {
+            _context.Movie.Update(m);
+            _context.SaveChanges();
+        }
+
+        public void DeleteMovie(Movie m)
+        {
+            _context.Movie.Remove(m);
+            _context.SaveChanges();
+        }
+        public void DeleteMovie(int id)
+        {
+            _context.Movie.Remove(GetMovie(id));
+            _context.SaveChanges();
+        }
+        public int GetTotalMovies()
+        {
+            return _context.Movie.Count();
+        }
+        public IEnumerable<Movie> GetPopularMovies()
         {
             IEnumerable<Movie> movies;
             if (!_cache.TryGetValue(_popularCacheKey, out movies))
@@ -147,11 +120,6 @@ namespace TheWorld.Models.Repositories
                 }
             }
             return movies;
-        }
-
-        public int GetTotalMovies()
-        {
-            return _context.Movie.Count();
         }
     }
 }

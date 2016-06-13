@@ -39,7 +39,6 @@ namespace TheWorld
             services.AddMvc(config =>
             {
 #if !DEBUG
-            // To add, someday
             // Zorgt ervoor dat alles wat we versturen over https gaat
               config.Filters.Add(new RequireHttpsAttribute());
 #endif
@@ -47,6 +46,8 @@ namespace TheWorld
             {
                 opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
+
+            services.AddAntiforgery();
 
             // Adds Identity to the service
             // Setting up the user requirements
