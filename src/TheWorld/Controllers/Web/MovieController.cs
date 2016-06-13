@@ -28,6 +28,12 @@ namespace TheWorld.Controllers.Web
         }
 
         [Authorize]
+        public IActionResult Watch(int id)
+        {
+            return View(_movieRepository.GetMovie(id));
+        }
+
+        [Authorize]
         public IActionResult Create()
         {
             return View();

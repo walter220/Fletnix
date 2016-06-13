@@ -1,0 +1,34 @@
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+@model TheWorld.Models.Movie
+@{
+        ViewBag.Title = "Movie detail pagina";
+}
+@section styles 
+{
+    <link href="//amp.azure.net/libs/amp/1.7.0/skins/amp-default/azuremediaplayer.min.css" rel="stylesheet">
+
+}
+@section Scripts
+{
+    <script src="//amp.azure.net/libs/amp/1.7.0/azuremediaplayer.min.js"></script>
+    <script>
+        amp.options.flashSS.swf = "//amp.azure.net/libs/amp/1.7.0/techs/StrobeMediaPlayback.2.0.swf"
+        amp.options.silverlightSS.xap = "//amp.azure.net/libs/amp/1.7.0/techs/SmoothStreamingPlayer.xap"
+    </script>
+}
+<div class="page-header">
+    <h1>@Model.title</h1>
+</div>
+
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+        <h2>Video player</h2>
+        <video id="vid1" class="azuremediaplayer amp-default-skin" controls width="640" height="400" poster="~/img/movie_placeholder.jpg" data-setup='{"techOrder": ["azureHtml5JS", "flashSS", "silverlightSS", "html5"], "nativeControlsForTouch": false}'>
+            <source src="~/videoTest/AzurePromoVideo.mp4" type="application/vnd.ms-sstr+xml"
+                    data-setup='{"protectionInfo": [{"type": "AES", "authenticationToken": "Bearer=urn%3amicrosoft%3aazure%3amediaservices%3acontentkeyidentifier=8130520b-c116-45a9-824e-4a0082f3cb3c&Audience=urn%3atest&ExpiresOn=1450207516&Issuer=http%3a%2f%2ftestacs.com%2f&HMACSHA256=eV7HDgZ9msp9H9bnEPGN91sBdU7XsZ9OyB6VgFhKBAU%3d"}]}'/>
+            <p class="amp-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a web browser that supports HTML5 video
+            </p>
+        </video>
+    </div>
+</div>
