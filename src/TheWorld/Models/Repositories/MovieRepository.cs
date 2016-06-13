@@ -35,11 +35,11 @@ namespace TheWorld.Models.Repositories
             }
         }
 
-        public IEnumerable<Movie> GetMoviesOnPage(int pageNumber, int pageSize = 20)
+        public IEnumerable<Movie> GetMoviesOnPage(int pageNumber, string search = "", int pageSize = 20)
         {
             try
             {
-                return _context.Movie.OrderBy(t => t.movie_id).Skip(pageNumber * pageSize).Take(pageSize).ToList();
+                return _context.Movie.OrderBy(t => t.movie_id).Where(m => m.title.Contains(search)).Skip(pageNumber * pageSize).Take(pageSize).ToList();
             }
             catch (Exception ex)
             {

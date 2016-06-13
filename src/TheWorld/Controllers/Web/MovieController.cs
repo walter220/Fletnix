@@ -14,10 +14,10 @@ namespace TheWorld.Controllers.Web
             _movieRepository = repository;
         }
 
-        public IActionResult Index(int page = 1)
+        public IActionResult Index(int page = 1, string search = "", int size = 20)
         {
             
-            return View(new MoviesViewModel() {Movies = _movieRepository.GetMoviesOnPage(page), PageNumber = page, PageSize = 20, TotalItemCount = _movieRepository.GetTotalMovies()});
+            return View(new MoviesViewModel() {Movies = _movieRepository.GetMoviesOnPage(page, search, size), Search = search, PageNumber = page, PageSize = size, TotalItemCount = _movieRepository.GetTotalMovies()});
         }
 
         public IActionResult Movie(int id)

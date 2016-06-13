@@ -7,32 +7,61 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <h2>The movies</h2>
-        <ul>
+        <form role="search">
+            <div class="form-group">
+                <label asp-for="Search">Zoeken naar films op titel</label>
+                <input asp-for="Search" type="text" class="form-control" placeholder="Search">
+                <span asp-validation-for="Search" class="text-muted"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">Search</button>
+            </div>
+
+        </form>
+
+        <label>Aantal films weegeven op pagina:</label>
+        <div class="btn-group" role="group" aria-label="Total movie items on page">
+            <a class="btn btn-default" asp-route-search="@Model.Search" asp-route-page="@Model.PageNumber" asp-route-size="10">10</a>
+            <a class="btn btn-default" asp-route-search="@Model.Search" asp-route-page="@Model.PageNumber" asp-route-size="25">25</a>
+            <a class="btn btn-default" asp-route-search="@Model.Search" asp-route-page="@Model.PageNumber" asp-route-size="50">50</a>
+        </div>
+
+        <br/>
+
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <td>title</td>
+                <td>publication_year</td>
+                <td>duration</td>
+                <td>price</td>
+                <td>Details</td>
+            </tr>
+            </thead>
+            <tbody>
             @foreach (var movie in Model.Movies)
             {
-                <li>
-                    <a asp-controller="Movie" asp-action="Movie" asp-route-id="@movie.movie_id">@movie.title</a>
-                    <p>@movie.duration | @movie.publication_year | @movie.price</p>
-                </li>
+                <tr>
+                    <td>@movie.title</td>
+                    <td>@movie.publication_year</td>
+                    <td>@movie.duration</td>
+                    <td>@movie.price</td>
+                    <td><a asp-controller="Movie" asp-action="Movie" asp-route-id="@movie.movie_id">Details</a></td>
+                </tr>
             }
-        </ul>
+            </tbody>
+        </table>
     </div>
-    <cs-pager cs-paging-pagesize="@Model.PageSize"
-              cs-paging-pagenumber="@Model.PageNumber"
-              cs-paging-totalitems="@Model.TotalItemCount"
-              cs-pagenumber-param="page"
-              asp-controller="Paging"
-              asp-action="Index"></cs-pager>
-    <p>Above here has to be a pagination with:</p>
-    <ul>
-        <li>@Model.PageSize</li>
-        <li>@Model.PageNumber</li>
-        <li>@Model.TotalItemCount</li>
-    </ul>
-</div>
-<div>
-    <p>
-        End of page
-    </p>
+</div
+<div class="row">
+    <div class="center-block">
+        <cs-pager cs-paging-pagesize="@Model.PageSize"
+                  cs-paging-pagenumber="@Model.PageNumber"
+                  cs-paging-totalitems="@Model.TotalItemCount"
+                  cs-pagenumber-param="page"
+                  asp-controller="Movie"
+                  asp-action="Index"
+                  asp-route-search="@Model.Search"
+                  asp-route-size="@Model.PageSize"></cs-pager>
+    </div>
 </div>

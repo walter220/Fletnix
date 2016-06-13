@@ -32,7 +32,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-controller="Auth" asp-action="User">Welkom @User.Identity.Name!</a></li>
+                        <li><a asp-controller="User" asp-action="Index">Welkom @User.Identity.Name!</a></li>
                         <li><a asp-controller="Auth" asp-action="Logout">Logout</a></li>
                     }
                     else

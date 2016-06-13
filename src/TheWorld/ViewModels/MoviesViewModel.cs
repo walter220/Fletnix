@@ -8,6 +8,7 @@ namespace TheWorld.ViewModels
 {
     public class MoviesViewModel
     {
+        public string Search { get; set; }
         public int PageSize { get; set; }
         public int PageNumber { get; set; }
         public int TotalItemCount { get; set; }
