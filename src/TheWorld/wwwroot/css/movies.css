@@ -2,6 +2,22 @@
     Styling form thead movie page 
 */
 
+.search-group {
+    display: flex;
+    justify-content: center;
+    -ms-flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    margin: 0;
+    padding: 5px;
+    text-align: center;
+    align-items: center;
+}
+.search-group .btn {
+    margin-left: 10px;
+    padding: 10px 50px
+}
+
 .movie-group {
     display: flex;
     justify-content: center;
@@ -18,10 +34,17 @@
     margin: 0;
     padding: 15px;
     overflow: hidden;
-        text-align: center;
+    text-align: center;
 }
 
 .movie-group-item > img {
     width: 100%;
     border-radius: 30px;
+}
+
+@media (max-width: 420px) {
+     .search-group .btn {
+        margin-left: 5px;
+        padding: 10px 20px
+    }
 }

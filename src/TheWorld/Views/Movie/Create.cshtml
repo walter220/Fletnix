@@ -1,0 +1,69 @@
+@using Microsoft.AspNet.Mvc.ModelBinding
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+@model TheWorld.Models.Movie
+@{
+        ViewBag.Title = "Movie detail pagina";
+}
+<div class="page-header">
+    <h1>Nieuwe film toevoegen</h1>
+</div>
+
+<div class="row">
+    <div class="col-sm-8">
+
+        <form method="post" asp-action="update" novalidate>
+            <div asp-validation-summary="ValidationSummary.ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="movie_id">Movie Id</label>
+                <input asp-for="movie_id" class="form-control" value="@Model.movie_id" />
+                <span asp-validation-for="movie_id"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="title">Titel</label>
+                <input asp-for="title" class="form-control" value="" />
+                <span asp-validation-for="title"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="description">Description</label>
+                <input asp-for="description" class="form-control" value="" />
+                <span asp-validation-for="description"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="duration">Duur</label>
+                <input asp-for="duration" class="form-control" value="" />
+                <span asp-validation-for="duration"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="price">Prijs</label>
+                <input asp-for="price" class="form-control" value="" />
+                <span asp-validation-for="price"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="publication_year">Jaar</label>
+                <input asp-for="publication_year" class="form-control" value="" />
+                <span asp-validation-for="publication_year"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="URL">Url</label>
+                <input asp-for="URL" class="form-control" value="" />
+                <span asp-validation-for="URL"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="minimum_age">Minimale leeftijd</label>
+                <input asp-for="minimum_age" class="form-control" value="" />
+                <span asp-validation-for="minimum_age"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Aanmaken" class="btn btn-warning" />
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-4">
+        <img src="~/img/movie_placeholder.jpg" alt="" class="movie-poster" />
+    </div>
+
+</div>

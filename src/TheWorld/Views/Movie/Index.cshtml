@@ -7,18 +7,22 @@
     <link rel="stylesheet" href="~/css/movies.css" />
 }
 <div class="page-header">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="btn-ctrl-group right">
+            <a asp-action="Create" class="btn btn-success">Nieuwe film</a>
+        </div>
+    }
     <h1>Bekijk hier alle films</h1>
 </div>
 <div class="row">
     <div class="col-md-12">
         <form role="search">
-            <div class="form-group">
-                <label asp-for="Search">Zoeken naar films op titel</label>
-                <input asp-for="Search" type="text" class="form-control" placeholder="Search">
+            <label asp-for="Search">Zoeken naar films op titel</label>
+            <div class="search-group">
+                <input asp-for="Search" type="text" class="form-control" placeholder="Zoeken">
                 <span asp-validation-for="Search" class="text-muted"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-default">Search</button>
+                <button type="submit" class="btn btn-default">Zoeken</button>
             </div>
         </form>
 

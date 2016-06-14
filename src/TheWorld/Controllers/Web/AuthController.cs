@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Mvc;
+using Microsoft.Data.Entity.Migrations;
 using TheWorld.Models;
 using TheWorld.ViewModels;
 
-namespace TheWorld.Controllers
+namespace TheWorld.Controllers.Web
 {
 #if !DEBUG
     [RequireHttps]
@@ -15,11 +17,26 @@ namespace TheWorld.Controllers
     public class AuthController : Controller
     {
         private SignInManager<FletnixUser> _signInManager;
-        public AuthController(SignInManager<FletnixUser> signInManager)
+        private UserManager<FletnixUser> _userManager;
+        private RoleManager<IdentityRole> _role;
+//        private IHistoryRepository _history;
+
+        //        public AuthController(SignInManager<FletnixUser> signInManager, UserManager<FletnixUser> userManager, RoleManager<FletnixUser> roleManager, IHistoryRepository history)
+        //        {
+        //            _signInManager = signInManager;
+        //            _userManager = userManager;
+        //            _manager = roleManager;
+        //            _history = history;
+        //        }
+
+        public AuthController(SignInManager<FletnixUser> signInManager, UserManager<FletnixUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
+            _role = roleManager;
+//            _history = history;
         }
-        
+
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -74,6 +91,27 @@ namespace TheWorld.Controllers
             return RedirectToAction("Index", "App");
         }
 
+
+        public IActionResult Roles()
+        {
+            return View(_role.Roles.ToList());
+        }
+
         
+//        public async Task<ActionResult> Roles(RolesViewModel vm)
+//        {
+//            if (ModelState.IsValid)
+//            {
+//                var role = new IdentityRole(vm.Role);
+//                var roleresult = await _rmanager.CreateAsync(role);
+//                if (!roleresult.Succeeded)
+//                {
+//                    return View();
+//                }
+//                return RedirectToAction("Index", "App");
+//            }
+//            return View(vm);
+//        }
+
     }
 }

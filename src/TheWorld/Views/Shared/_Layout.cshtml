@@ -12,50 +12,50 @@
     @RenderSection("Styles", false)
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-controller="App" asp-action="Index" class="navbar-brand">FLETNIX</a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar-main">
-                <ul class="nav navbar-nav">
-                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "App" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"><a asp-controller="App" asp-action="Index">Home</a></li>
-                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Movie" ? "active" : "")"><a asp-controller="Movie" asp-action="Index">Movies</a></li>
-                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Genre" ? "active" : "")"><a asp-controller="Genre" asp-action="Index">Genre</a></li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")"><a asp-controller="App" asp-action="Contact">Contact</a></li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")"><a asp-controller="App" asp-action="About">About</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li><a asp-controller="User" asp-action="Index">Welkom @User.Identity.Name!</a></li>
-                        <li><a asp-controller="Auth" asp-action="Logout">Logout</a></li>
-                    }
-                    else
-                    {
-                        <li><a asp-controller="Auth" asp-action="Login">Login</a></li>
-                        <li><a asp-controller="Auth" asp-action="Register">Registreren</a></li>
-                    }
-                </ul>
-
-            </div>
-        </div>
-    </nav>
-
+<nav class="navbar navbar-default">
     <div class="container">
-        @RenderBody()
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a asp-controller="App" asp-action="Index" class="navbar-brand">FLETNIX</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "App" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"><a asp-controller="App" asp-action="Index">Home</a></li>
+                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Movie" ? "active" : "")"><a asp-controller="Movie" asp-action="Index">Movies</a></li>
+                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Genre" ? "active" : "")"><a asp-controller="Genre" asp-action="Index">Genre</a></li>
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")"><a asp-controller="App" asp-action="Contact">Contact</a></li>
+                <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")"><a asp-controller="App" asp-action="About">About</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li><a asp-controller="User" asp-action="Index">Welkom @User.Identity.Name!</a></li>
+                    <li><a asp-controller="Auth" asp-action="Logout">Logout</a></li>
+                }
+                else
+                {
+                    <li><a asp-controller="Auth" asp-action="Login">Login</a></li>
+                    <li><a asp-controller="Auth" asp-action="Register">Registreren</a></li>
+                }
+            </ul>
+
+        </div>
     </div>
+</nav>
 
-    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="~/js/main.js"></script>
+<div class="container">
+    @RenderBody()
+</div>
 
-    @RenderSection("Scripts", false)
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="~/js/main.js"></script>
+
+@RenderSection("Scripts", false)
 </body>
 </html>

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
@@ -33,27 +34,37 @@ namespace TheWorld.Controllers.Web
             return View();
         }
 
-//        [HttpPost]
-//        public IActionResult Contact(ContactViewModel model)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                var email = Startup.Configuration["AppSettings:SiteEmailAddress"];
-//
-//                if (string.IsNullOrWhiteSpace(email))
-//                {
-//                    ModelState.AddModelError("", "Could not send email, configuration problem");
-//                }
-//
-//                if (_mailService.SendMail(email, email,
-//                    $"Contact Page from {model.Name} ({model.Email})",
-//                    model.Message))
-//                {
-//                    ModelState.Clear();
-//                    ViewBag.Message = "Mail Send!";
-//                }
-//            }
-//            return View();
-//        }
+        public IActionResult Error()
+        {
+            return View();
+        }
+
+        public IActionResult Test()
+        {
+            throw new Exception();
+        }
+
+        //        [HttpPost]
+        //        public IActionResult Contact(ContactViewModel model)
+        //        {
+        //            if (ModelState.IsValid)
+        //            {
+        //                var email = Startup.Configuration["AppSettings:SiteEmailAddress"];
+        //
+        //                if (string.IsNullOrWhiteSpace(email))
+        //                {
+        //                    ModelState.AddModelError("", "Could not send email, configuration problem");
+        //                }
+        //
+        //                if (_mailService.SendMail(email, email,
+        //                    $"Contact Page from {model.Name} ({model.Email})",
+        //                    model.Message))
+        //                {
+        //                    ModelState.Clear();
+        //                    ViewBag.Message = "Mail Send!";
+        //                }
+        //            }
+        //            return View();
+        //        }
     }
 }

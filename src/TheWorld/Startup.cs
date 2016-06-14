@@ -108,15 +108,15 @@ namespace TheWorld
 #if DEBUG
             app.UseDeveloperExceptionPage();
             loggerFactory.AddDebug(LogLevel.Information);
+#else
+            app.UseExceptionHandler("/App/Error");
 #endif
             // Kijk of het een static file is
             app.UseStaticFiles();
 
             // Kijk of we Identity moeten gebruiken
             app.UseIdentity();
-
-
-
+            
             // Gebruik MVC, meestal als laatst gebruikt
             app.UseMvc(config =>
             {
@@ -127,7 +127,7 @@ namespace TheWorld
                     );
             });
 
-//            await seeder.EnsureSeedDataAsync();
+            await seeder.EnsureSeedDataAsync();
         }
 
         // Entry point for the application.

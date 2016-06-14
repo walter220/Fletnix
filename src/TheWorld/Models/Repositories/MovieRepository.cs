@@ -29,8 +29,9 @@ namespace TheWorld.Models.Repositories
             {
                 return _context.Movie
                     .Where(m => m.title.Contains(search))
-                    .Skip(pageNumber * pageSize)
+                    .Skip(pageNumber * pageSize - pageSize)
                     .Take(pageSize)
+                    .OrderBy(m => m.movie_id)
                     .ToList();
             }
             catch (Exception ex)
@@ -50,6 +51,8 @@ namespace TheWorld.Models.Repositories
                     .ThenInclude(d => d.person)
                     .Include(m => m.Movie_Cast)
                     .ThenInclude(d => d.person)
+                    .Include(m => m.CustomerFeedback)
+                    .Include(m => m.MovieAwards)
                     .First(i => i.movie_id == id);
             }
             catch (Exception ex)

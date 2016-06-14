@@ -1,3 +1,4 @@
+@using Microsoft.AspNet.Mvc.ModelBinding
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @model TheWorld.Models.Movie
 @{
@@ -11,12 +12,15 @@
         };
 }
 <div class="page-header">
-    <div class="btn-ctrl-group right">
-        <a asp-action="Edit" asp-route-id="@Model.movie_id" class="btn btn-warning">Bijwerken</a>
-        <form asp-action="Delete" asp-route-id="@Model.movie_id" method="post">
-            <input type="submit" value="Verwijderen" class="btn btn-danger" />
-        </form>
-    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="btn-ctrl-group right">
+            <a asp-action="Edit" asp-route-id="@Model.movie_id" class="btn btn-warning">Bijwerken</a>
+            <form asp-action="Delete" asp-route-id="@Model.movie_id" method="post">
+                <input type="submit" value="Verwijderen" class="btn btn-danger" />
+            </form>
+        </div>
+    }
     <h1>@Model.title</h1>
 </div>
 
@@ -79,6 +83,34 @@
                     <strong>Kijkwijzer: </strong>@(Model.minimum_age.Equals("") ? Model.minimum_age.ToString() : "Onbekend")
                 </p>
                 <p><strong>Omschrijving: </strong>@Model.description</p>
+                
+                @if (Model.MovieAwards.Count != 0)
+                {
+                    <div>
+                        <strong>Awards: </strong><br />
+                        @foreach (var item in Model.MovieAwards)
+                        {
+                        <h6>@item.award</h6>
+                        }
+                    </div>
+                }
+                        
+                <div>
+                    <strong>Reacties: </strong><br />
+                    @if (Model.CustomerFeedback.Count != 0)
+                    {
+                        foreach (var item in Model.CustomerFeedback)
+                        {
+                            <h6>Reactie van: @item.customer_mail_address geeft een @item.rating</h6>
+                            <p>@item.comments</p>
+                            <br/>
+                        }
+                    }
+                    else
+                    {
+                        <span>Er zijn nog geen reacties gegeven op deze film</span>
+                    }
+                </div>
                 <div class="row">
                     <p class="col-sm-4">
                         <strong>Cast:</strong><br />
@@ -132,60 +164,3 @@
     </div>
 
 </div>
-@**@
-@*<div class="row">*@
-@*    <div class="col-md-4">*@
-@*        <h3>Lijst van genre's</h3>*@
-@*        @if (Model.Movie_Genre.Count != 0)*@
-@*        {*@
-@*            <ul class="list-group">*@
-@*                @foreach (var genre in Model.Movie_Genre)*@
-@*                {*@
-@*                    <li class="list-group-item">@genre.genre_name</li>*@
-@*                }*@
-@*            </ul>*@
-@*        }*@
-@*        else*@
-@*        {*@
-@*            <p>Er zijn geen genre's aanwezig</p>*@
-@*        }*@
-@*    </div>*@
-@**@
-@*    <div class="col-md-4">*@
-@*        <h3>Lijst van directors</h3>*@
-@*        @if (Model.Movie_Director.Count != 0)*@
-@*        {*@
-@*            <ul class="list-group">*@
-@*                @foreach (var director in Model.Movie_Director)*@
-@*                {*@
-@*                    <li class="list-group-item">*@
-@*                        @director.person.firstname, @director.person.lastname*@
-@*                    </li>*@
-@*                }*@
-@*            </ul>*@
-@*        }*@
-@*        else*@
-@*        {*@
-@*            <p>Er zijn geen Directors aanwezig</p>*@
-@*        }*@
-@*    </div>*@
-@**@
-@*    <div class="col-md-4">*@
-@*        <h3>Lijst van cast</h3>*@
-@*        @if (Model.Movie_Cast.Count != 0)*@
-@*        {*@
-@*            <ul class="list-group">*@
-@*                @foreach (var cast in Model.Movie_Cast)*@
-@*                {*@
-@*                    <li class="list-group-item">*@
-@*                        @cast.person.firstname, @cast.person.lastname ALS @cast.role*@
-@*                    </li>*@
-@*                }*@
-@*            </ul>*@
-@*        }*@
-@*        else*@
-@*        {*@
-@*            <p>Er is geen cast aanwezig</p>*@
-@*        }*@
-@*    </div>*@
-@*</div>*@

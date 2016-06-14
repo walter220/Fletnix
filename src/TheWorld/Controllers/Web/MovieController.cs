@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Authorization;
+﻿using System;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using TheWorld.Models;
 using TheWorld.Models.Repositories;
@@ -8,7 +9,6 @@ namespace TheWorld.Controllers.Web
 {
     public class MovieController : Controller
     {
-        //
         private readonly IMovieRepository _movieRepository;
 
         public MovieController(IMovieRepository repository)
@@ -36,8 +36,18 @@ namespace TheWorld.Controllers.Web
         [Authorize]
         public IActionResult Create()
         {
-            return View();
+            int id = 0;
+
+            while (true)
+            {
+                if (_movieRepository.GetMovie(id) == null) break;
+                id++;
+            }
+
+            Movie tempMovie = new Movie() {movie_id = id};
+            return View(tempMovie);
         }
+
 
         [HttpPost]
         [Authorize]
@@ -61,7 +71,6 @@ namespace TheWorld.Controllers.Web
             _movieRepository.UpdateMovie(m);
             return RedirectToAction("Movie", "Movie", new { id = m.movie_id});
         }
-
 
         [HttpPost]
         [Authorize]
