@@ -27,7 +27,6 @@
             <ul class="nav navbar-nav">
                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "App" && ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")"><a asp-controller="App" asp-action="Index">Home</a></li>
                 <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Movie" ? "active" : "")"><a asp-controller="Movie" asp-action="Index">Movies</a></li>
-                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Genre" ? "active" : "")"><a asp-controller="Genre" asp-action="Index">Genre</a></li>
                 <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")"><a asp-controller="App" asp-action="Contact">Contact</a></li>
                 <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "About" ? "active" : "")"><a asp-controller="App" asp-action="About">About</a></li>
             </ul>

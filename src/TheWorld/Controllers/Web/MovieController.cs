@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using TheWorld.Models;
@@ -7,6 +8,7 @@ using TheWorld.ViewModels;
 
 namespace TheWorld.Controllers.Web
 {
+    [Authorize]
     public class MovieController : Controller
     {
         private readonly IMovieRepository _movieRepository;
@@ -16,69 +18,78 @@ namespace TheWorld.Controllers.Web
             _movieRepository = repository;
         }
 
+        
         public IActionResult Index(int page = 1, string search = "", int size = 10)
         {
-            
-            return View(new MoviesViewModel() {Movies = _movieRepository.GetAllMovies(page, search, size), Search = search, PageNumber = page, PageSize = size, TotalItemCount = _movieRepository.GetTotalMovies()});
+            var movies = _movieRepository.GetAllMovies(page, search, size);
+            var movieView = new MoviesViewModel()
+            {
+                Movies = movies,
+                Search = search,
+                PageNumber = page,
+                PageSize = size,
+                TotalItemCount = _movieRepository.GetTotalMovies(search)
+            };
+            return View(movieView);
         }
-
+        
         public IActionResult Movie(int id)
         {
             return View(_movieRepository.GetMovie(id));
         }
-
-        [Authorize]
+        
         public IActionResult Watch(int id)
         {
             return View(_movieRepository.GetMovie(id));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            int id = 0;
-
-            while (true)
-            {
-                if (_movieRepository.GetMovie(id) == null) break;
-                id++;
-            }
-
-            Movie tempMovie = new Movie() {movie_id = id};
-            return View(tempMovie);
+            return View(new Movie() { movie_id = _movieRepository.GetNewMovieId() });
         }
-
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(int id)
+        public IActionResult Create(Movie m)
         {
-            return View(_movieRepository.GetMovie(id));
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Er is een fout opgetreden");
+                return View(m);
+            }
+            _movieRepository.CreateMovie(m);
+            return RedirectToAction("Movie", "Movie", m.movie_id);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             return View(_movieRepository.GetMovie(id));
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Movie m)
+        public IActionResult Edit(Movie m)
         {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Er is een fout opgetreden");
+                return View(m);
+            }
             _movieRepository.UpdateMovie(m);
-            return RedirectToAction("Movie", "Movie", new { id = m.movie_id});
+            return RedirectToAction("Movie", "Movie", m.movie_id);
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            int mId = id;
-            return RedirectToAction("Movie", "Movie", new { id = mId});
+            _movieRepository.DeleteMovie(id);
+            return RedirectToAction("Index", "Movie");
         }
     }
 }

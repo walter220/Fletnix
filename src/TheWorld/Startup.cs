@@ -13,6 +13,7 @@ using Newtonsoft.Json.Serialization;
 using TheWorld.Models;
 using TheWorld.Models.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using TheWorld.Repositories;
 
 namespace TheWorld
 {
@@ -92,6 +93,7 @@ namespace TheWorld
             // Add Scoped zorgt ervoor dat de instantie de gehele tijd van een request wordt hergebruikt elke keer dat iedereen dit nodig heeft
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<IPersonRepository, PersonRepository>();
 
             services.AddCaching();
 

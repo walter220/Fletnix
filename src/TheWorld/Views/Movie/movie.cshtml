@@ -2,17 +2,17 @@
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @model TheWorld.Models.Movie
 @{
-        ViewBag.Title = "Movie detail pagina";
+    ViewBag.Title = "Movie detail pagina";
 
-        var movieData = new
-        {
-            castLast = Model.Movie_Cast.Skip(2).FirstOrDefault(),
-            genreLast = Model.Movie_Genre.Skip(2).FirstOrDefault(),
-            
-        };
+    var movieData = new
+    {
+        castLast = Model.Movie_Cast.Skip(2).FirstOrDefault(),
+        genreLast = Model.Movie_Genre.Skip(2).FirstOrDefault(),
+
+    };
 }
 <div class="page-header">
-    @if (User.Identity.IsAuthenticated)
+    @if (User.IsInRole("Admin"))
     {
         <div class="btn-ctrl-group right">
             <a asp-action="Edit" asp-route-id="@Model.movie_id" class="btn btn-warning">Bijwerken</a>
@@ -38,7 +38,7 @@
                 <p>
                     <strong>Jaar: </strong>@Model.publication_year &ensp;
                     <strong>Speeltijd: </strong>@Model.duration minuten &ensp;
-                    <strong>Kijkwijzer: </strong>@(Model.minimum_age.Equals("") ? Model.minimum_age.ToString() : "Onbekend")
+                    <strong>Minimun leeftijd: </strong>@(Model.minimum_age.ToString() != "" ? Model.minimum_age.ToString() : "Onbekend")
                 </p>
                 <p><strong>Omschrijving: </strong>@Model.description</p>
                 <p>
@@ -80,7 +80,7 @@
                 <p>
                     <strong>Jaar: </strong>@Model.publication_year &ensp;
                     <strong>Speeltijd: </strong>@Model.duration minuten &ensp;
-                    <strong>Kijkwijzer: </strong>@(Model.minimum_age.Equals("") ? Model.minimum_age.ToString() : "Onbekend")
+                    <strong>Minimun leeftijd: </strong>@(Model.minimum_age.ToString() != "" ? Model.minimum_age.ToString() : "Onbekend")
                 </p>
                 <p><strong>Omschrijving: </strong>@Model.description</p>
                 

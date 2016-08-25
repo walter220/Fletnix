@@ -25,7 +25,6 @@ namespace TheWorld.Controllers.Web
         
         public IActionResult About()
         {
-            ViewBag.totalMovies = _movieRepository.GetTotalMovies();
             return View();
         }
         

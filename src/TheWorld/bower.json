@@ -9,6 +9,7 @@
     "jquery-validation": "~1.15.0",
     "jquery-validation-unobtrusive": "~3.2.6",
     "underscore": "~1.8.3",
-    "bootswatch-dist": "~3.3.1+2-lumen"
+    "bootswatch-dist": "~3.3.1+2-lumen",
+    "select2": "4.0.3"
   }
 }

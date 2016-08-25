@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TheWorld.Models
 {
@@ -15,15 +16,24 @@ namespace TheWorld.Models
             Watchhistory = new HashSet<Watchhistory>();
         }
 
+        [Required]
         public int movie_id { get; set; }
         public byte[] cover_image { get; set; }
+        [Required]
+        [MaxLength(255)]
         public string description { get; set; }
         public int? duration { get; set; }
         public int? minimum_age { get; set; }
         public int? previous_part { get; set; }
+        [Required]
+        [DataType(DataType.Currency)]
         public decimal price { get; set; }
+        [Range(1900, 3000)]
         public int? publication_year { get; set; }
+        [Required]
+        [MaxLength(255)]
         public string title { get; set; }
+        [Required]
         public string URL { get; set; }
 
         public virtual ICollection<CustomerFeedback> CustomerFeedback { get; set; }

@@ -34,3 +34,7 @@
     font-size: xx-large;
     border-radius: 20px;
 }
+
+.result-name {
+    display: inline-block;
+}

@@ -14,7 +14,7 @@ namespace TheWorld.Controllers.Web
             _context = context;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Customer")]
         public IActionResult Index()
         {
             return View();

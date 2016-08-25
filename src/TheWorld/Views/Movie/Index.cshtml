@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/css/movies.css" />
 }
 <div class="page-header">
-    @if (User.Identity.IsAuthenticated)
+    @if (User.IsInRole("Admin"))
     {
         <div class="btn-ctrl-group right">
             <a asp-action="Create" class="btn btn-success">Nieuwe film</a>
@@ -62,6 +62,9 @@
 </div>
 <div class="row">
     <div class="center-block">
+        page size: @Model.PageSize <br/>
+        page nuber: @Model.PageNumber <br/>
+        total item count: @Model.TotalItemCount <br/>
         <cs-pager cs-paging-pagesize="@Model.PageSize"
                   cs-paging-pagenumber="@Model.PageNumber"
                   cs-paging-totalitems="@Model.TotalItemCount"

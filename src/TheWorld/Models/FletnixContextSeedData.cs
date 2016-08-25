@@ -52,53 +52,53 @@ namespace TheWorld.Models
                 await _user.AddToRoleAsync(newUser, "Customer");
             }
 
-//            if (await _user.FindByEmailAsync("quam@Sed.org") == null)
-//            {
-//                var newUser = new FletnixUser()
-//                {
-//                    UserName = "wally",
-//                    Email = "quam@Sed.org"
-//                };
-//               
-//                await _user.CreateAsync(newUser, "walter1!");
-//                await _user.AddToRoleAsync(newUser, "Customer");
-//            }
-//
-//            if (await _user.FindByEmailAsync("admin@fletnix.com") == null)
-//            {
-//                var newUser = new FletnixUser()
-//                {
-//                    UserName = "admin",
-//                    Email = "admin@fletnix.com"
-//                };
-//                
-//                await _user.CreateAsync(newUser, "admin1!");
-//                await _user.AddToRoleAsync(newUser, "Admin");
-//            }
-//
-//            if (await _user.FindByEmailAsync("ceo@fletnix.com") == null)
-//            {
-//                var newUser = new FletnixUser()
-//                {
-//                    UserName = "ceo",
-//                    Email = "ceo@fletnix.com"
-//                };
-//                
-//                await _user.CreateAsync(newUser, "ceo1!");
-//                await _user.AddToRoleAsync(newUser, "CEO");
-//            }
-//
-//            if (await _user.FindByEmailAsync("financial@fletnix.com") == null)
-//            {
-//                var newUser = new FletnixUser()
-//                {
-//                    UserName = "financial",
-//                    Email = "financial@fletnix.com"
-//                };
-//                
-//                await _user.CreateAsync(newUser, "financial1!");
-//                await _user.AddToRoleAsync(newUser, "Financial");
-//            }
+            if (await _user.FindByEmailAsync("quam@Sed.org") == null)
+            {
+                var newUser = new FletnixUser()
+                {
+                    UserName = "wally",
+                    Email = "quam@Sed.org"
+                };
+               
+                await _user.CreateAsync(newUser, "Wallywal1!");
+                await _user.AddToRoleAsync(newUser, "Customer");
+            }
+
+            if (await _user.FindByEmailAsync("admin@fletnix.com") == null)
+            {
+                var newUser = new FletnixUser()
+                {
+                    UserName = "admin",
+                    Email = "admin@fletnix.com"
+                };
+                
+                await _user.CreateAsync(newUser, "Admin123!");
+                await _user.AddToRoleAsync(newUser, "Admin");
+            }
+
+            if (await _user.FindByEmailAsync("ceo@fletnix.com") == null)
+            {
+                var newUser = new FletnixUser()
+                {
+                    UserName = "ceo",
+                    Email = "ceo@fletnix.com"
+                };
+                
+                await _user.CreateAsync(newUser, "CEOceo123!");
+                await _user.AddToRoleAsync(newUser, "CEO");
+            }
+
+            if (await _user.FindByEmailAsync("financial@fletnix.com") == null)
+            {
+                var newUser = new FletnixUser()
+                {
+                    UserName = "financial",
+                    Email = "financial@fletnix.com"
+                };
+                
+                await _user.CreateAsync(newUser, "Financial1!");
+                await _user.AddToRoleAsync(newUser, "Financial");
+            }
 
             //            if (_context.FletnixUser.Any())
             //            {
