@@ -10,6 +10,8 @@
     "jquery-validation-unobtrusive": "~3.2.6",
     "underscore": "~1.8.3",
     "bootswatch-dist": "~3.3.1+2-lumen",
-    "select2": "4.0.3"
+    "select2": "4.0.3",
+    "bootstrap-select": "1.7.3",
+    "bootstrap-star-rating": "^4.0.1"
   }
 }

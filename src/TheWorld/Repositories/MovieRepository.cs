@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Data.Entity.Internal;
 using Microsoft.Data.Entity.Query.Internal;
 using Microsoft.Extensions.Caching.Memory;
+using TheWorld.ViewModels;
 
 namespace TheWorld.Models.Repositories
 {
@@ -52,6 +53,7 @@ namespace TheWorld.Models.Repositories
                     .ThenInclude(d => d.person)
                     .Include(m => m.Movie_Cast)
                     .ThenInclude(d => d.person)
+                    .Include(m => m.Watchhistory)
                     .Include(m => m.CustomerFeedback)
                     .Include(m => m.MovieAwards)
                     .First(i => i.movie_id == id);
@@ -66,6 +68,10 @@ namespace TheWorld.Models.Repositories
         public void CreateMovie(Movie m)
         {
             _context.Movie.Add(m);
+            foreach (var mg in m.Movie_Genre)
+            {
+                _context.Movie_Genre.Add(mg);
+            }
             _context.SaveChanges();
         }
 
@@ -77,6 +83,14 @@ namespace TheWorld.Models.Repositories
         public void UpdateMovie(Movie m)
         {
             _context.Movie.Update(m);
+            foreach (var mg in m.Movie_Genre)
+            {
+                _context.Movie_Genre.Add(new Movie_Genre()
+                {
+                    genre_name = mg.genre_name,
+                    movie_id = mg.movie_id
+                });
+            }
             _context.SaveChanges();
         }
 
@@ -148,6 +162,12 @@ namespace TheWorld.Models.Repositories
                 }
             }
             return totalMovies;
+        }
+
+        public void WatchMovie(Watchhistory w)
+        {
+            _context.Watchhistory.Add(w);
+            _context.SaveChanges();
         }
     }
 }

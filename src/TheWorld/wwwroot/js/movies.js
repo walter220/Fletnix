@@ -37,7 +37,7 @@ var updatePersons = function (persons) {
             "<li class='list-group-item'><div class='result-name'>" +
             person.firstname + " " + person.lastname +
             "</div>" +
-            "<a class='btn btn-default js-select-director'>" +
+            "<a class='btn btn-default btn-select-director js-select-director'>" +
             "Add" +
             "</a>" +
             "<i class='fa fa-check hidden' aria-hidden='true'></i>" +

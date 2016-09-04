@@ -1,19 +1,36 @@
-@model TheWorld.ViewModels.LoginViewModel
+@model TheWorld.Models.Customer
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = @User.Identity.Name;
 }
 @section Scripts {
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }
-<div class="row">
-    <div class="col-md-12">
-        <h2>Welkom @User.Identity.Name</h2>
-        <h3>Gegevens: </h3>
+    <div class="jumotron">
+    <h2>Welkom @User.Identity.Name</h2>
+    <ul>
+        <li>@Model.name</li>
         <ul>
-            <li>@User.Identity.Name</li>
-            <li></li>
+            
         </ul>
-        
+    </ul>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <h2>Watch history</h2>
+                @if (Model.Watchhistory.Count() != 0)
+                {
+                    <div class="list-group">
+                        @foreach (var item in Model.Watchhistory)
+                        {
+                            <a asp-controller="Movie" asp-action="Movie" asp-route-id="@item.movie.movie_id" class="list-group-item">@item.movie.title bekeken op @item.watch_date.ToString("d")</a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <h3>Je hebt nog geen films bekeken</h3>
+                }
+        </div>
     </div>
 </div>

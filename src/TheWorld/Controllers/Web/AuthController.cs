@@ -73,7 +73,9 @@ namespace TheWorld.Controllers.Web
                 {
                     if (string.IsNullOrWhiteSpace(returnUrl))
                         return RedirectToAction("Index", "App");
-                    return Redirect(returnUrl);
+                    if (Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
+                    return RedirectToAction("Index", "App");
                 }
                 ModelState.AddModelError("", "Username or password incorrect");
                 

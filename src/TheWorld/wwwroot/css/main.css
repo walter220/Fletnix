@@ -37,4 +37,26 @@
 
 .result-name {
     display: inline-block;
+    margin-right: 1em;
+}
+
+.movies__person-list {
+    min-height: 50px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.btn-select-director {
+    float: right;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.js-rating-message {
+    color: red;
+    display: none;
+}
+
+.list-group-item .rating {
+    float: right;
 }

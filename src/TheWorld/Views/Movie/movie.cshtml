@@ -1,8 +1,11 @@
+@using System.Globalization
 @using Microsoft.AspNet.Mvc.ModelBinding
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @model TheWorld.Models.Movie
 @{
     ViewBag.Title = "Movie detail pagina";
+
+    bool currentUserFeedback = false;
 
     var movieData = new
     {
@@ -10,6 +13,16 @@
         genreLast = Model.Movie_Genre.Skip(2).FirstOrDefault(),
 
     };
+}
+@section Styles
+{
+    <link href="~/lib/bootstrap-star-rating/css/star-rating.min.css" rel="stylesheet" />
+}
+@section Scripts
+{
+    <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="~/lib/bootstrap-star-rating/js/star-rating.min.js" type="text/javascript"></script>
+    <script src="~/js/rating.js" type="text/javascript"></script>
 }
 <div class="page-header">
     @if (User.IsInRole("Admin"))
@@ -36,7 +49,7 @@
             <div role="tabpanel" class="tab-pane fade in active" id="overzicht">
                 <br />
                 <p>
-                    <strong>Jaar: </strong>@Model.publication_year &ensp;
+                    <strong>Prijs: </strong>@Model.price &ensp;
                     <strong>Speeltijd: </strong>@Model.duration minuten &ensp;
                     <strong>Minimun leeftijd: </strong>@(Model.minimum_age.ToString() != "" ? Model.minimum_age.ToString() : "Onbekend")
                 </p>
@@ -57,7 +70,7 @@
                 </p>
                 <p>
                     <strong>Genre's:</strong>
-                    @if (Model.Movie_Cast.Count != 0)
+                    @if (Model.Movie_Genre.Count != 0)
                     {
                         foreach (var item in Model.Movie_Genre.Take(3))
                         {
@@ -69,47 +82,115 @@
                         <span>Onbekend</span>
                     }
                 </p>
+
                 <div class="text-center">
-                    <a asp-action="Watch" asp-route-id="@Model.movie_id" class="btn btn-watch">Film kijken!</a>
+
+                    @if (Model.Watchhistory.Count != 0)
+                    {
+                        <a asp-action="Watch" asp-route-id="@Model.movie_id" class="btn btn-watch @(Model.Watchhistory.LastOrDefault().watch_date == DateTime.Now ? "" : "disabled")">Nog een keer kijken!</a>
+                        if (Model.Watchhistory.LastOrDefault().watch_date.ToString("d") == DateTime.Now.ToString("d"))
+                        {
+                            <p>
+                                Het is niet mogelijk om de film nog een keer te bekijken op dezelfde dag. <br/>
+                                Kijk ook eens een andere film!
+                            </p>
+                        }
+                        else
+                        {
+                            <p>
+                                Je hebt deze film al @Model.Watchhistory.Count bekeken. <br />
+                                Voor het laatst op: @Model.Watchhistory.LastOrDefault().watch_date.ToString("D");
+                            </p>
+                        }
+                    }
+                    else
+                    {
+                        <a asp-action="Watch" asp-route-id="@Model.movie_id" class="btn btn-watch">Film kijken!</a>
+                    }
                 </div>
-                
+
             </div>
 
             <div role="tabpanel" class="tab-pane fade" id="details">
                 <br />
                 <p>
+                    <strong>Prijs: </strong>@Model.price &ensp;
                     <strong>Jaar: </strong>@Model.publication_year &ensp;
-                    <strong>Speeltijd: </strong>@Model.duration minuten &ensp;
+                    <strong>Speeltijd: </strong>@Model.duration min. &ensp;
                     <strong>Minimun leeftijd: </strong>@(Model.minimum_age.ToString() != "" ? Model.minimum_age.ToString() : "Onbekend")
                 </p>
                 <p><strong>Omschrijving: </strong>@Model.description</p>
-                
+
                 @if (Model.MovieAwards.Count != 0)
                 {
                     <div>
                         <strong>Awards: </strong><br />
                         @foreach (var item in Model.MovieAwards)
                         {
-                        <h6>@item.award</h6>
+                            <h6>@item.award</h6>
                         }
                     </div>
                 }
-                        
-                <div>
-                    <strong>Reacties: </strong><br />
-                    @if (Model.CustomerFeedback.Count != 0)
-                    {
-                        foreach (var item in Model.CustomerFeedback)
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="list-group js-reactions">
+                            <strong>Reacties: </strong><br/>
+                            @if (Model.CustomerFeedback.Count != 0)
+                            {
+                                foreach (var item in Model.CustomerFeedback)
+                                {
+                                    <div class="list-group-item" data-item-email="@item.customer_mail_address">
+                                        <input class="rating rating-loading rating-inactive" value="@item.rating" data-size="xs"
+                                               data-show-clear="false" data-show-caption="false" />
+                                        <h6>Reactie van: @item.customer_mail_address</h6>
+                                        <p>@item.comments</p>
+                                        <br/>
+                                        @if (item.customer_mail_address == ViewBag.user.Email)
+                                        {
+                                            currentUserFeedback = true;
+                                            <form asp-antiforgery="true">
+                                                <div class="form-group"
+                                                     data-item-movieId="@Model.movie_id"
+                                                     data-item-email="@ViewBag.user.Email"
+                                                     data-item-rating="@item.rating"
+                                                     data-item-comment="@item.comments">
+                                                    <button class='btn btn-warning js-btn-modify'>Wijzigen</button>
+                                                    <button class='btn btn-danger js-btn-delete'>Verwijderen</button>
+                                                </div>
+                                            </form>
+                                        }
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <span>Er zijn nog geen reacties gegeven op deze film</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-12 js-add-reaction">
+                        @if (!currentUserFeedback)
                         {
-                            <h6>Reactie van: @item.customer_mail_address geeft een @item.rating</h6>
-                            <p>@item.comments</p>
-                            <br/>
+                            <form asp-antiforgery="true">
+                                <input name="movieId" type="hidden" value="@Model.movie_id" />
+                                <input name="email" type="hidden" value="@ViewBag.user.Email" />
+                                <div class="form-group js-rating">
+                                    <label for="rating" class="control-label">Waardering</label>
+                                    <input id="rating" name="rating" class="rating js-rating-star"
+                                           data-min="0" data-max="10" data-step="1" data-size="xs"
+                                           data-show-clear="false" data-show-caption="false">
+                                </div>
+                                <div class="form-group">
+                                    <label for="comment">Opmerking</label>
+                                    <textarea id="comment" name="comment" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success js-rating-btn js-rating-add" disabled>Plaats reactie</button>
+                                </div>
+                            </form>
                         }
-                    }
-                    else
-                    {
-                        <span>Er zijn nog geen reacties gegeven op deze film</span>
-                    }
+                    </div>
+
                 </div>
                 <div class="row">
                     <p class="col-sm-4">
@@ -118,7 +199,7 @@
                         {
                             foreach (var item in Model.Movie_Cast)
                             {
-                                <span>@item.person.firstname @item.person.lastname</span><br/>
+                                <span>@item.person.firstname @item.person.lastname</span><br />
                             }
                         }
                         else

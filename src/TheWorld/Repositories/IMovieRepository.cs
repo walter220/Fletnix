@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TheWorld.ViewModels;
 
 namespace TheWorld.Models.Repositories
 {
@@ -17,5 +18,6 @@ namespace TheWorld.Models.Repositories
         IEnumerable<Movie> GetPopularMovies();
         int GetNewMovieId();
         int GetTotalMovies(string search);
+        void WatchMovie(Watchhistory w);
     }
 }
